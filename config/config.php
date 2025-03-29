@@ -8,7 +8,7 @@ class Connection {
     private $username = "root"; // Your MySQL username
     private $password = ""; // Your MySQL password (empty by default in XAMPP)
     private $dbname = "dlsu"; // Your database name
-    private $port = 3307; // The port MySQL is running on
+    private $port = 3306; // The port MySQL is running on
     private $dsn;
     private $pdo;
 

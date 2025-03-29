@@ -1,3 +1,4 @@
+
 <?php 
   session_start();
   
@@ -5,8 +6,7 @@
         header('location:../login.php');
         exit;
     }
-    require_once '../config/config.php';
-
+  include '../config/config.php';
     class data extends Connection { 
       public function managedata(){ 
 ?>
