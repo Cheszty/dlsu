@@ -14,26 +14,15 @@
 
               if (isset($_POST['selectdepartment'])) {
 
-<<<<<<< HEAD
-                $sql = "SELECT * FROM teams INNER JOIN users ON teams.users_id=users.id WHERE users.department='".$_POST['selectdepartment']."' AND teams.adviser_id='".$_SESSION['id']."'";
-=======
                 $sql = "SELECT * FROM teams LEFT JOIN users ON teams.users_id=users.id WHERE users.department='".$_POST['selectdepartment']."' AND teams.adviser_id='".$_SESSION['id']."' AND teams.adviser_status = '1'";
->>>>>>> second-repo/main
 
               } else {
 
                 $search = $_POST['search'];
-<<<<<<< HEAD
-                if ($search == "" OR !isset($search)) {
-                  $sql = "SELECT * FROM teams INNER JOIN users ON teams.users_id=users.id WHERE teams.adviser_id='".$_SESSION['id']."'";
-                } else {
-                  $sql = "SELECT * FROM teams INNER JOIN users ON teams.users_id=users.id WHERE name LIKE '%$search%' AND teams.adviser_id='".$_SESSION['id']."' LIMIT 5";
-=======
                 if ($search == "" || !isset($search) || !isset($_POST['selectdepartment']) || $_POST['selectdepartment'] == "") {
                   $sql = "SELECT * FROM teams LEFT JOIN users ON teams.users_id=users.id WHERE teams.adviser_id='".$_SESSION['id']."' AND teams.adviser_status = '1'";
                 } else {
                   $sql = "SELECT * FROM teams LEFT JOIN users ON teams.users_id=users.id WHERE name LIKE '%$search%' AND teams.adviser_id='".$_SESSION['id']."'  AND teams.adviser_status = '1' LIMIT 5";
->>>>>>> second-repo/main
                 }
 
               }
