@@ -136,10 +136,17 @@
                         ?>
                         
                         <h4>Adviser: <?=ucwords($fullname)?></h4>
+<<<<<<< HEAD
                         <?php if($fullname == NULL): ?>
                             <img src="../images/<?=$row1['img'] == NULL? "default.png" : $row1['img'] ?>" style="border-radius:50%; margin-left: 20px;" width="70px" height="70px">
                         <?php else: ?>
                             No adviser
+=======
+                        <?php if($fullname == NULL || $fullname == " "): ?>
+                            No adviser
+                        <?php else: ?>
+                            <img src="../images/<?=$row1['img'] == NULL? "default.png" : $row1['img'] ?>" style="border-radius:50%; margin-left: 20px;" width="70px" height="70px">
+>>>>>>> second-repo/main
                         <?php endif ?>
                     </div>
                     <div>
@@ -176,7 +183,11 @@
                         <iframe src="../uploads/<?=$_GET['file']?>" width="100%" height="600" style="border: none; background: white;"></iframe>
                     <?php else: ?>
                         <div style="width:100%; height:600; font-size: 80px; text-align:center;">
+<<<<<<< HEAD
                             <p>No image selected</p>
+=======
+                            <p>No file selected</p>
+>>>>>>> second-repo/main
                         </div>
                     <?php endif?>
                 </div>

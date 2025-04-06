@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> second-repo/main
 <?php 
   session_start();
   
@@ -745,4 +748,8 @@
   </script>
 </body>
 </html>
+<<<<<<< HEAD
 <?php } } $data = new data(); $data->managedata(); ?>
+=======
+<?php } } $data = new data(); $data->managedata(); ?>
+>>>>>>> second-repo/main
