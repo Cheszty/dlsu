@@ -36,19 +36,14 @@
               <h4 class="modal-title"><b>Comment Task</b></h4>
             </div>
             <div class="modal-body">
-                <div id="comments_section">
-                    <!-- Comments will be loaded here -->
-                </div>
-
-                <!-- Comment Form -->
-                <form class="form-horizontal" method="POST" action="../controller/monitorthesisController.php">
-                    <input type="hidden" id="taskcommentdashboard_task_id" name="task_id" required>
-                    <div class="form-group">
-                        <label for="project_list_id" class="col-sm-12">Comment</label>
-                        <div class="col-sm-12">
-                            <textarea class="form-control" name="comment" rows="6" required></textarea>
-                        </div>
+              <form class="form-horizontal" method="POST" action="../controller/monitorthesisController.php">
+                <input type="hidden" id="taskcommentdashboard_task_id" name="task_id" required>
+                <div class="form-group">
+                    <label for="project_list_id" class="col-sm-12">Comment</label>
+                    <div class="col-sm-12">
+                      <textarea class="form-control" id="" name="comment" rows="6" required></textarea>
                     </div>
+                </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-close"></i> Close</button>

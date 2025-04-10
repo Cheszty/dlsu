@@ -88,7 +88,7 @@
                   <?php if(empty($_GET['file'])){
                       $_GET['file'] = "";
                   } ?>
-                  <iframe src="https://docs.google.com/viewer?url=<?php echo urlencode('https://dlsu-thesistracker.site/dlsu-d/uploads/' . $_GET['file']); ?>&embedded=true" width="100%" height="600" style="border: none; background: white;"></iframe>
+                  <iframe src="https://docs.google.com/viewer?url=<?php echo urlencode('https://dlsu-thesistracker.site/dlsu-d/uploads/' . $_GET['file']); ?>&embedded=true" width="100%" height="800" style="border: none; background: white;"></iframe>
                 </div>
               </div>
             </div>

@@ -11,7 +11,6 @@
 <link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css">
 
 
-
 <!-- Google Font -->
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
@@ -289,4 +288,26 @@ details[open] summary::after {
     background-color: #3ea1db !important;
     color: white !important;
 }
+
+.btn-darkblue {
+    background-color: darkblue !important; /* Dark Blue */
+    color: white !important;
+    border: none !important;
+    padding: 10px 16px !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    border-radius: 5px !important;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-darkblue:hover {
+    background-color: #002147 !important; /* Slightly darker blue on hover */
+    color: #f8f9fa !important;
+}
+
+/* Add spacing between buttons */
+.dt-buttons .btn {
+    margin-right: 5px !important;
+}
+
     </style>

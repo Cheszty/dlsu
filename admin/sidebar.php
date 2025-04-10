@@ -1,131 +1,269 @@
-<style>
-  .main-sidebar a{
-    color: #3ea1db !important;
-  }
-  .title {
-    font-size: 24px; 
-    margin-bottom: 40px; 
-    color: #3ea1db; 
-    font-weight: 600;
-    letter-spacing: 3px;
-  }
-  
-</style>
-<aside class="main-sidebar" style="padding-top: unset;">
-  <section class="sidebar">
-    <ul class="sidebar-menu" data-widget="tree">
-      <li style="background: #fff;color: #fff;text-align: center;padding: 20px;">
-        <!-- <img src="../images/logo2.png" width="100%">
-      <br><br> -->
-      <img src="../images/thesishub_logo2.png" width="60%"></li>
-      <p class="text-center title">THESIS TRACKER</p>
-      <li><a href="dashboard.php"><i class="fa fa-<?= $_SESSION['type'] == 1 ? 'chalkboard-teacher' : 'tachometer-alt' ?>"></i> <span><?= $_SESSION['type'] == 1 ? 'CLASS OVERVIEW' : 'DASHBOARD' ?></span></a></li>
-      <?php if($_SESSION['type'] == 0): ?>
-        <li><a href="users.php"><i class="fa fa-users"></i> <span>USERS</span></a></li>
-      <?php endif; ?>
-      
-      <li><a href="about.php"><i class="fas fa-ellipsis-h"></i> <span>ABOUT</span></a></li>
+<!DOCTYPE html>
+<html lang="en">
 
-      <?php if($_SESSION['type'] != 0): ?>
-        <li><a href="notifications.php" style="position: relative;">
-          <i class="fas fa-bell"></i> <span>NOTIFICATIONS</span> 
-          <div style="position:absolute;right: 10px;top: 50%;transform: translateY(-50%);">
-              
-             <!-- adviser notif -->
-            <?php if($_SESSION['type'] == 1): ?>
-            
-              <?php $sql = "SELECT * FROM reminder_adviser WHERE notif = 1 AND adviser_id = '".$_SESSION['id']."'";
-              $stmt = $this->conn()->query($sql);
-              if ($adviser = $stmt->fetch()): ?>
-                <div style="width: 7px;height: 7px;border-radius: 50%;background: red;box-shadow: 0px 0px 5px red;">
-              <?php endif ?>
-            
-            <!-- student notif -->
-            <?php elseif($_SESSION['type'] == 2): ?>
-              <?php
-                    $sql1 = "SELECT teams_id FROM teams_member WHERE users_id = ?";
-                    $stmt1 = $this->conn()->prepare($sql1);
-                    $stmt1->execute([$_SESSION['id']]);
-                    $team_id = $stmt1->fetchColumn() ?: null;
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Floating Sidebar */
+        .main-sidebar {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 240px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.15);
+            padding: 15px;
+            transition: all 0.3s ease-in-out;
+            z-index: 1000;
+        }
 
-                    if ($team_id !== null) {
-                        $sql = "SELECT * FROM reminder WHERE notif = 1 AND teams_id = ?";
-                        $stmt = $this->conn()->prepare($sql);
-                        $stmt->execute([$team_id]); 
-              if ($student = $stmt->fetch()): 
-            ?>
-                    <div style="width: 7px; height: 7px; border-radius: 50%; background: red; box-shadow: 0px 0px 5px red;"></div>
-            <?php 
-                endif;
-                    }
-            ?>
-              
-            <?php endif ?>
-            
-          
-        </a></li>
-      <?php endif; ?>
+        /* Sidebar Hover Effect */
+        .main-sidebar:hover {
+            width: 250px;
+        }
 
-        <li>
-          <a href="templates.php"><i class="fas fa-book"></i> <span>TEMPLATES</span></a>
-        </li>
+        /* Sidebar Logo */
+        .sidebar-logo {
+            text-align: center;
+            padding: 10px 0;
+        }
 
-      <?php if($_SESSION['type'] == 2): ?>
-        <li>
-          <a href="tasklist.php"><i class="fas fa-list"></i> <span>TASK LIST</span></a>
-        </li>
-      <?php endif; ?>
-      <?php if($_SESSION['type'] == 1): ?>
-        <li>
-          <a href="tasklist.php"><i class="fas fa-list"></i> <span>TASK LIST</span></a>
-        </li>
-      <?php endif; ?>
-      <li>
-        <a href="teams.php"><i class="fas fa-users"></i> <span>TEAMS</span></a>
-      </li>
-      <?php if($_SESSION['type'] == 0): ?>
-        <li>
-          <a href="assignation.php"><i class="fas fa-user-check"></i> <span>ASSIGNATION</span></a>
-        </li>
-      <?php endif; ?>
-      <li>
-        <a href="../logout.php" onclick="return confirm('Are you sure you want to logout?');"><i class="fas fa-sign-out"></i> <span>LOGOUT</span></a>
-      </li>
-    </ul>
+        .sidebar-logo img {
+            width: 80%;
+            max-width: 120px;
+        }
+
+        /* Sidebar Title */
+        .title {
+            font-size: 22px;
+            font-weight: bold;
+            text-align: center;
+            color: #1d4e89;
+            /* Dark Blue Title */
+            margin-bottom: 15px;
+        }
+
+        /* Sidebar Menu */
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+        }
+
+        .sidebar-menu li {
+            display: block;
+            margin-bottom: 10px;
+
+        }
+
+        /* Sidebar Links */
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 14px;
+            font-size: 18px;
+            font-weight: 500;
+            color: #1d4e89;
+            /* Dark Blue Title */
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        /* Sidebar Icons */
+        .sidebar-menu i {
+            font-size: 18px;
+            min-width: 25px;
+            text-align: center;
+            margin-right: 12px;
+            color: #1d4e89;
+            /* Dark Blue Icons */
+            transition: color 0.3s ease;
+        }
+
+        /* Hover & Active States */
+        /* Hover State */
+        .sidebar-menu a:hover {
+            background: darkblue;
+            /* Regular dark blue on hover */
+            color: white;
+        }
+
+        .sidebar-menu a:hover i {
+            color: white;
+            /* Make icons white on hover */
+        }
+
+        /* Active State */
+        .sidebar-menu a.active {
+            background: #0b3d91;
+            /* Darker blue for active state */
+            color: white;
+        }
+
+        .sidebar-menu a.active i {
+            color: white;
+            /* Make icons white when active */
+        }
 
 
-    <ul class="sidebar-menu" style="position: absolute;bottom: 0; width: 100%">
-      <li>
-        <?php
-        $sql = "SELECT * FROM users WHERE id = '".$_SESSION['id']."'";
-        $stmt = $this->conn()->query($sql);
-        $row = $stmt->fetch();
-        ?>
-        <a href="#profile" data-toggle="modal" id="updateprofile" 
-          data-firstname="<?= $row['firstname'] ?>" 
-          data-users_id="<?= $row['id'] ?>"
-          data-lastname="<?= $row['lastname'] ?>"
-          data-email="<?= $row['email'] ?>"
-          data-password="<?= $row['passwordtxt'] ?>"
-          data-img="<?= $row['img'] ?>"
-          data-section="<?= $row['section'] ?>"
-          data-yrlvl="<?= $row['yr_lvl'] ?>"
-        >
-            
-          <img src="../images/<?php echo $row['img'] ?>" width="30px" height="30px" style="border-radius: 50%;">
-          <?php 
-            if ($_SESSION['type'] == 1) {
-              echo " Faculty:";
-            }else if ($_SESSION['type'] == 2) {
-              echo " Student:";
-            } else if ($_SESSION['type'] == 0) {
-              echo " Admin:";
+        /* Profile Section */
+        .sidebar-profile {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: 0.3s ease;
+            color: #1d4e89;
+            /* Dark Blue Text */
+            white-space: nowrap;
+            overflow: hidden;
+            text-decoration: none;
+        }
+
+        .sidebar-profile:hover {
+            background: #e0e0e0;
+        }
+
+        /* Profile Image */
+        .sidebar-profile img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            /* Ensures the image covers the area while maintaining its aspect ratio */
+            border: 2px solid #1d4e89;
+            /* Dark Blue Border */
+        }
+
+        /* Profile Info */
+        .sidebar-profile .profile-info {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+            margin-left: 10px;
+        }
+
+        .sidebar-profile .profile-info .name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #1d4e89;
+            /* Dark Blue Name */
+        }
+
+        .sidebar-profile .profile-info .role {
+            font-size: 12px;
+            color: #1d4e89;
+            /* Dark Blue Role */
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 768px) {
+            .main-sidebar {
+                left: 0;
+                width: 200px;
+                border-radius: 0;
+                box-shadow: none;
             }
-          ?> 
-           <span><?php echo $row['firstname'] ?> <?php echo $row['lastname'] ?></span>
-        </a>
-      </li>
-    </ul>
-    <?php include "profile.php" ?>
-  </section>
-</aside>
+
+            .sidebar-menu a {
+                font-size: 14px;
+                padding: 8px 10px;
+            }
+
+            .sidebar-profile {
+                flex-direction: column;
+                text-align: center;
+                padding: 8px;
+            }
+
+            .sidebar-profile .profile-info {
+                margin-top: 5px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+    <aside class="main-sidebar">
+        <section class="sidebar">
+            <!-- Logo Section -->
+            <div class="sidebar-logo">
+                <img src="../images/thesishub_logo2.png" alt="Thesis Hub Logo">
+            </div>
+
+            <p class="title">THESIS TRACKER</p>
+            <hr class="my-4">
+
+            <!-- Navigation Menu -->
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.php"><i class="fa-solid fa-gauge"></i> <span>DASHBOARD</span></a></li>
+
+                <?php if ($_SESSION['type'] == 0): ?>
+                    <li><a href="users.php"><i class="fa-solid fa-users"></i> <span>USERS</span></a></li>
+                <?php endif; ?>
+
+                <li><a href="about.php"><i class="fa-solid fa-circle-info"></i> <span>ABOUT</span></a></li>
+
+                <?php if ($_SESSION['type'] != 0): ?>
+                    <li><a href="notifications.php"><i class="fa-solid fa-bell"></i> <span>NOTIFICATIONS</span></a></li>
+                <?php endif; ?>
+
+                <li><a href="templates.php"><i class="fa-solid fa-book"></i> <span>TEMPLATES</span></a></li>
+
+                <?php if ($_SESSION['type'] == 1 || $_SESSION['type'] == 2): ?>
+                    <li><a href="tasklist.php"><i class="fa-solid fa-list-check"></i> <span>TASK LIST</span></a></li>
+                <?php endif; ?>
+
+                <li><a href="teams.php"><i class="fa-solid fa-people-group"></i> <span>TEAMS</span></a></li>
+
+                <?php if ($_SESSION['type'] == 0): ?>
+                    <li><a href="assignation.php"><i class="fa-solid fa-user-check"></i> <span>ASSIGNATION</span></a></li>
+                <?php endif; ?>
+
+                <li><a href="../logout.php" onclick="return confirm('Are you sure you want to logout?');">
+                        <i class="fa-solid fa-right-from-bracket"></i> <span>LOGOUT</span>
+                    </a></li>
+            </ul>
+
+            <!-- Profile Section -->
+            <ul class="sidebar-menu">
+                <li>
+                    <?php
+                    $sql = "SELECT * FROM users WHERE id = '" . $_SESSION['id'] . "'";
+                    $stmt = $this->conn()->query($sql);
+                    $row = $stmt->fetch();
+                    ?>
+                    <a href="#profile" data-toggle="modal" class="sidebar-profile" id="updateprofile"
+                        data-firstname="<?= $row['firstname'] ?>" data-users_id="<?= $row['id'] ?>"
+                        data-lastname="<?= $row['lastname'] ?>" data-email="<?= $row['email'] ?>"
+                        data-password="<?= $row['passwordtxt'] ?>" data-img="<?= $row['img'] ?>"
+                        data-section="<?= $row['section'] ?>" data-yrlvl="<?= $row['yr_lvl'] ?>">
+                        <img src="../images/<?php echo $row['img']; ?>" alt="User Profile" style>
+                        <div class="profile-info mt-5">
+                            <span class="name"><?php echo $row['firstname'] . " " . $row['lastname']; ?></span>
+                            <span
+                                class="role"><?php echo ($_SESSION['type'] == 1) ? "Faculty" : ($_SESSION['type'] == 2 ? "Student" : "Admin"); ?></span>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </section>
+    </aside>
+
+</body>
+
+</html>

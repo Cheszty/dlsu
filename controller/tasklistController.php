@@ -129,7 +129,6 @@ class controller extends Connection
             $sql = "SELECT * FROM teams WHERE teams_id = '$teams_id'";
             $stmt = $this->conn()->query($sql);
             $row = $stmt->fetch();
-
             $groupname = $row['name'];
             $adviser_id = $row['adviser_id'];
             $users_id = $_SESSION['id'];

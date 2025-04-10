@@ -12,6 +12,30 @@
 <!DOCTYPE html>
 <html>
 <head><?php include 'head.php'; ?>
+<style>
+  /* Custom DataTables Button Style */
+.btn-darkblue {
+    background-color: #003366 !important; /* Dark Blue */
+    color: white !important;
+    border: none !important;
+    padding: 10px 16px !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    border-radius: 5px !important;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-darkblue:hover {
+    background-color: #002147 !important; /* Slightly darker blue on hover */
+    color: #f8f9fa !important;
+}
+
+/* Add spacing between buttons */
+.dt-buttons .btn {
+    margin-right: 5px !important;
+}
+
+</style>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
   <div class="wrapper">
@@ -632,43 +656,48 @@
     });
 
     $(document).ready(function() {
-        $('#cs_table').DataTable({
-            responsive: true,
-            paging: true,
-            pageLength: 5,
-            lengthMenu: [5, 10, 25, 50],
-            searching: true,
-            ordering: true,
-            info: true,
-            dom: 'lBfrtip',
-            buttons: [
-                {
-                    extend: 'pdf',
-                    text: 'PDF',
-                    title: 'CS Department Report',
-                    pageSize: 'A4',
+    $('#cs_table').DataTable({
+        responsive: true,
+        paging: true,
+        pageLength: 5,
+        lengthMenu: [5, 10, 25, 50],
+        searching: true,
+        ordering: true,
+        info: true,
+        dom: 'lBfrtip',
+        buttons: [
+            {
+                extend: 'pdf',
+                text: '<i class="fas fa-file-pdf"></i> PDF',
+                title: 'CS Department Report',
+                pageSize: 'A4',
+                className: 'custom-btn' // Custom class for styling
+            },
+            {
+                extend: 'print',
+                text: '<i class="fas fa-print"></i> Print',
+                title: 'CS Department Report',
+                exportOptions: {
+                    columns: ':visible',
+                    stripHtml: false
                 },
-                {
-                    extend: 'print',
-                    text: 'Print',
-                    title: 'CS Department Report',
-                    exportOptions: {
-                        columns: ':visible', // Export only visible columns
-                        stripHtml: false // Keep table formatting (important!)
-                    },
-                    customize: function(win) {
-                        $(win.document.body)
-                            .css('font-size', '12px') // Adjust font size
-                            .find('table')
-                            .addClass('table-bordered') // Add Bootstrap table border
-                            .css('width', '100%'); // Ensure table width is correct
-    
-                        // Ensure nested tables are styled correctly
-                        $(win.document.body).find('table table').addClass('table table-bordered');
-                    }
-                }
-            ]
-        });
+                customize: function(win) {
+                    $(win.document.body)
+                        .css('font-size', '12px')
+                        .find('table')
+                        .addClass('table-bordered')
+                        .css('width', '100%');
+                    $(win.document.body).find('table table').addClass('table table-bordered');
+                },
+                className: 'custom-btn' // Custom class for styling
+            }
+        ]
+    });
+
+    // Apply styles to the buttons dynamically
+    $('.custom-btn').addClass('btn btn-darkblue');
+});
+
         
          $('#it_table').DataTable({
             responsive: true,
