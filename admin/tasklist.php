@@ -79,7 +79,8 @@ class data extends Connection
                                     data-edit_setdeadline_id='<?php echo $row['setdeadline_id'] ?>'>+ SUBTASK</button>
                                 <?php endif; ?>
                                 <a href="viewdifferenttask.php?setdeadline_id=<?php echo $row['setdeadline_id'] ?>" class='btn btn-warning btn-sm btn-table'>VIEW TASK</a>
-                                <a href="tasklistcomments.php?setdeadline_id=<?php echo $row['setdeadline_id'] ?>" class='btn btn-primary btn-sm btn-table'>VIEW COMMENTS</a>
+                                <!-- <a href="tasklistcomments.php?setdeadline_id=<?php echo $row['setdeadline_id'] ?>" class='btn btn-primary btn-sm btn-table'>VIEW COMMENTS</a> -->
+
 
                                 <?php if ($_SESSION['type'] == 2): ?>
                                   <button class='btn btn-info btn-sm uploadfile btn-table'
